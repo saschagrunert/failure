@@ -1,0 +1,49 @@
+---
+name: failure
+version: 0.1.0
+github: "saschagrunert/failure"
+license: MIT
+author: "Sascha Grunert"
+maintainer: "mail@saschagrunert.de"
+copyright: "2018 Sascha Grunert"
+
+extra-source-files:
+  - README.md
+
+synopsis: Short description of your package
+category: Web
+description: Please see the README on GitHub at
+  <https://github.com/saschagrunert/failure#readme>
+
+dependencies:
+  - base >= 4.7 && < 5
+  - lens
+
+ghc-options:
+  - -Weverything
+  - -Wno-all-missed-specialisations
+  - -Wno-implicit-prelude
+  - -Wno-missed-specialisations
+  - -Wno-missing-exported-signatures
+  - -Wno-missing-import-lists
+  - -Wno-missing-local-signatures
+  - -Wno-monomorphism-restriction
+  - -Wno-safe
+  - -Wno-unsafe
+
+library:
+  source-dirs: src
+
+tests:
+  failure-test:
+    main: Test.hs
+    source-dirs: test
+    ghc-options:
+      - -rtsopts
+      - -threaded
+      - -with-rtsopts=-N
+    dependencies:
+      - tasty
+      - tasty-hspec
+      - tasty-quickcheck
+      - failure
