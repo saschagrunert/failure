@@ -16,9 +16,7 @@ jobs:
       - checkout
       - run:
           name: Version information
-          command: |
-            ghc --version
-            stack --version
+          command: stack --version
       - restore_cache:
           keys:
             - build-cache-{{ arch }}
