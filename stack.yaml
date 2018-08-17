@@ -1,7 +1,4 @@
 ---
-nix:
-  enable: true
-  pure: true
 resolver: lts-12.6
 packages:
   - .
