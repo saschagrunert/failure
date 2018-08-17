@@ -29,7 +29,6 @@ errorSpec =
     it "should succeed to retrieve the code of an Error" $
       testError ^. code `shouldBe` testErrorCode
     --
-    --
     it "should succeed to retrieve the description of an Error" $
       testError ^. description `shouldBe` testErrorDescription
     --
