@@ -8,6 +8,13 @@ workflows:
   pipeline:
     jobs:
       - build
+      - doc
+      - doc-publish:
+          requires:
+            - doc
+          filters:
+            branches:
+              only: master
       - test
 jobs:
   build:
@@ -27,6 +34,48 @@ jobs:
           key: build-cache-{{ arch }}
           paths:
             - .stack-work
+  doc:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - doc-cache-{{ arch }}
+      - run:
+          name: Build documentation
+          command: stack haddock --no-haddock-deps
+      - save_cache:
+          key: doc-cache-{{ arch }}
+          paths:
+            - .stack-work
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .stack-work
+  doc-publish:
+    <<: *defaults
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - c2:05:c6:97:5c:9d:17:b7:c8:84:fa:6d:05:55:75:8a
+      - attach_workspace:
+          at: .
+      - checkout
+      - run:
+          name: Setup git
+          command: |
+            git config --global user.email mail@saschagrunert.de
+            git config --global user.name "CircleCI"
+      - run:
+          name: Deploy documentation
+          command: |
+            git fetch origin gh-pages
+            git checkout -f gh-pages
+            rm -rf doc
+            mv .stack-work/install/x86_64-linux-tinfo6/lts-12.6/8.4.3/doc .
+            git add .
+            git diff-index --quiet HEAD || git commit -m 'Update documentation'
+            git push -f origin gh-pages
   test:
     <<: *defaults
     steps:
