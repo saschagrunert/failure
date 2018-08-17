@@ -1,7 +1,0 @@
-Configuring cabal-doctest-1.0.6...
-Preprocessing library for cabal-doctest-1.0.6..
-Building library for cabal-doctest-1.0.6..
-[1 of 1] Compiling Distribution.Extra.Doctest ( src/Distribution/Extra/Doctest.hs, .stack-work/dist/x86_64-linux-tinfo6/Cabal-2.2.0.1/build/Distribution/Extra/Doctest.o )
-ignoring (possibly broken) abi-depends field for packages
-Installing library in /root/.stack/snapshots/x86_64-linux-tinfo6/lts-12.6/8.4.3/lib/x86_64-linux-ghc-8.4.3/cabal-doctest-1.0.6-E57gwmEN5fa2uY0bq8bb44
-Registering library for cabal-doctest-1.0.6..
