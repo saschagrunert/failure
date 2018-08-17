@@ -34,6 +34,7 @@ jobs:
           key: build-cache-{{ arch }}
           paths:
             - .stack-work
+            - /root/.stack
   doc:
     <<: *defaults
     steps:
@@ -48,6 +49,7 @@ jobs:
           key: doc-cache-{{ arch }}
           paths:
             - .stack-work
+            - /root/.stack
       - persist_to_workspace:
           root: .
           paths:
@@ -93,3 +95,4 @@ jobs:
           key: test-cache-{{ arch }}
           paths:
             - .stack-work
+            - /root/.stack
