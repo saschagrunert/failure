@@ -1,0 +1,11 @@
+[1 of 2] Compiling Main             ( /tmp/stack-ef2c6cc9816ef085/distributive-0.5.3/Setup.lhs, /tmp/stack-ef2c6cc9816ef085/distributive-0.5.3/.stack-work/dist/x86_64-linux-tinfo6/Cabal-2.2.0.1/setup/Main.o )
+[2 of 2] Compiling StackSetupShim   ( /root/.stack/setup-exe-src/setup-shim-mPHDZzAJ.hs, /tmp/stack-ef2c6cc9816ef085/distributive-0.5.3/.stack-work/dist/x86_64-linux-tinfo6/Cabal-2.2.0.1/setup/StackSetupShim.o )
+Linking /tmp/stack-ef2c6cc9816ef085/distributive-0.5.3/.stack-work/dist/x86_64-linux-tinfo6/Cabal-2.2.0.1/setup/setup ...
+Configuring distributive-0.5.3...
+Preprocessing library for distributive-0.5.3..
+Building library for distributive-0.5.3..
+[1 of 2] Compiling Data.Distributive ( src/Data/Distributive.hs, .stack-work/dist/x86_64-linux-tinfo6/Cabal-2.2.0.1/build/Data/Distributive.o )
+[2 of 2] Compiling Data.Distributive.Generic ( src/Data/Distributive/Generic.hs, .stack-work/dist/x86_64-linux-tinfo6/Cabal-2.2.0.1/build/Data/Distributive/Generic.o )
+ignoring (possibly broken) abi-depends field for packages
+Installing library in /root/.stack/snapshots/x86_64-linux-tinfo6/lts-12.6/8.4.3/lib/x86_64-linux-ghc-8.4.3/distributive-0.5.3-4U82O12jcn83TVRfsshTrt
+Registering library for distributive-0.5.3..
