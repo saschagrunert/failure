@@ -34,18 +34,18 @@ module Failure.Error
 type Code = Integer
 
 -- | The concrete error type
-data Error a
-code :: forall a_a6LG. Lens' (Error a_a6LG) Code
-description :: forall a_a6LG. Lens' (Error a_a6LG) String
+data Error
+code :: Lens' Error Code
+description :: Lens' Error String
 
 -- | This is a convenient way to turn a string into an error value that can
 --   be passed around, if you do not want to create a new Fail type for
 --   this use case.
-err :: Code -> String -> Error a
+err :: Code -> String -> Error
 
 -- | Append an error to the chain with a given description
-errAppend :: Error a -> Code -> String -> Error a
-nextCause :: forall a_a6LG a_aacK. Lens (Error a_a6LG) (Error a_aacK) (Maybe (Error a_a6LG)) (Maybe (Error a_aacK))
-instance GHC.Show.Show (Failure.Error.Error a)
-instance Failure.Fail.Fail (Failure.Error.Error a)
-instance GHC.Classes.Eq (Failure.Error.Error a)
+errAppend :: Error -> Code -> String -> Error
+nextCause :: Lens' Error (Maybe Error)
+instance GHC.Show.Show Failure.Error.Error
+instance Failure.Fail.Fail Failure.Error.Error
+instance GHC.Classes.Eq Failure.Error.Error
