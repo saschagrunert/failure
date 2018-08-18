@@ -6,21 +6,29 @@ module Error
   ) where
 
 import Control.Lens     ((^.))
-import Failure.Error    (code, description, err, errAppend, nextCause)
-import Failure.Fail     (Fail (backtrace, cause))
+import Failure.Error    (code, description, err, nextCause)
+import Failure.Fail     (Fail (backtrace, cause, (+>)))
 import Test.Tasty.Hspec (Spec, it, parallel, shouldBe, shouldContain)
+
+-- Testable error codes
+data Code
+  = Error1
+  | Error2
+  deriving (Eq, Show)
 
 -- Error.hs related unit tests
 errorSpec :: Spec
 errorSpec =
-  parallel $ do
-    let testErrorCode = 100
+  parallel $
+    -- Given
+   do
+    let testErrorCode = Error1
     let testErrorDescription = "Error"
     let testError = err testErrorCode testErrorDescription
     let nextTestErrorDescription = "Next Error"
-    let nextTestErrorCode = 101
+    let nextTestErrorCode = Error2
     let nextTestError =
-          errAppend testError nextTestErrorCode nextTestErrorDescription
+          testError +> err nextTestErrorCode nextTestErrorDescription
     --
     it "should succeed to create an Error from description" $ do
       show testError `shouldContain` testErrorDescription

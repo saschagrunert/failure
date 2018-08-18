@@ -2,7 +2,7 @@
 --
 -- @since 0.1.0
 module Failure.Fail
-  ( Fail(backtrace, cause)
+  ( Fail(backtrace, cause, (+>))
   ) where
 
 -- | The main class of Fails.
@@ -15,9 +15,21 @@ module Failure.Fail
 -- wraps other errors. Returns `Nothing` if this failure does not have
 -- another error as its underlying cause.
 --
+-- `+>` adds an Error to the chain. This sets the seconds error cause to the
+-- first one and prepends it therefore to the overall error-chain.
+--
 -- @since 0.1.0
 class Fail a where
-  backtrace :: a -> [a]
+  backtrace ::
+       a -- ^ The input failure
+    -> [a] -- ^ The resulting list of failures as backtrace
   backtrace _ = []
-  cause :: a -> Maybe a
+  cause ::
+       a -- ^ The input failure
+    -> Maybe a -- ^ The cause failure
   cause _ = Nothing
+  (+>) ::
+       a -- ^ The reason for the resulting failure
+    -> a -- ^ The failure to append
+    -> a -- ^ The resulting failure
+  _ +> r = r
