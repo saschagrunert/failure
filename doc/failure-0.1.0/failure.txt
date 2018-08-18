@@ -40,14 +40,17 @@ type EitherE a b = Either (Error a) b
 
 -- | The concrete error type
 data Error a
-code :: forall a_a6Nu. Lens' (Error a_a6Nu) a_a6Nu
-description :: forall a_a6Nu. Lens' (Error a_a6Nu) String
+code :: forall a_a6O8. Lens' (Error a_a6O8) a_a6O8
+description :: forall a_a6O8. Lens' (Error a_a6O8) String
 
 -- | This is a convenient way to turn a string into an error value that can
 --   be passed around, if you do not want to create a new Fail type for
 --   this use case.
 err :: a -> String -> Error a
-nextCause :: forall a_a6Nu. Lens' (Error a_a6Nu) (Maybe (Error a_a6Nu))
+
+-- | Convert an <a>Exception</a> to an <a>Error</a>
+fromException :: Exception e => e -> a -> Error a
+nextCause :: forall a_a6O8. Lens' (Error a_a6O8) (Maybe (Error a_a6O8))
 instance GHC.Show.Show a => GHC.Show.Show (Failure.Error.Error a)
 instance Failure.Fail.Fail (Failure.Error.Error a)
 instance GHC.Classes.Eq a => GHC.Classes.Eq (Failure.Error.Error a)
