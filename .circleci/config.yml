@@ -51,8 +51,7 @@ jobs:
       - run:
           name: Check style
           command: |
-            shopt -s globstar
-            stylish-haskell -i **.hs
+            stylish-haskell -i $(find . -not -path '*/\.*' -name *.hs)
             git diff --exit-code
   doc:
     <<: *defaults
