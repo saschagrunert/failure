@@ -25,10 +25,10 @@ type Code = Integer
 -- | The concrete error type
 --
 -- @since 0.1.0
-data Error a = Error
+data Error = Error
   { _code        :: Code -- ^ A generic error code
   , _description :: String -- ^ A generic string description
-  , _nextCause   :: Maybe (Error a) -- ^ The next cause
+  , _nextCause   :: Maybe Error -- ^ The next cause
   } deriving (Eq)
 
 makeLenses ''Error
@@ -36,7 +36,7 @@ makeLenses ''Error
 -- | The default string representation of an `Error`
 --
 -- @since 0.1.0
-instance Show (Error a) where
+instance Show Error where
   show Error {_code = e, _description = d, _nextCause = Just c} =
     printf "%s: %s" (printfE d e) $ show c
   show Error {_code = e, _description = d, _nextCause = Nothing} = printfE d e
@@ -51,20 +51,20 @@ printfE = printf "%s (%d)"
 --
 -- @since 0.1.0
 new ::
-     Maybe (Error a) -- ^ The possible cause for the Error
+     Maybe Error -- ^ The possible cause for the Error
   -> Code -- ^ The error code
   -> String -- ^ The description
-  -> Error a -- ^ The resulting Error
+  -> Error -- ^ The resulting Error
 new c d e = Error {_nextCause = c, _code = d, _description = e}
 
 -- | Append an error to the chain with a given description
 --
 -- @since 0.1.0
 errAppend ::
-     Error a -- ^ The Error to which should be appended
+     Error -- ^ The Error to which should be appended
   -> Code -- ^ The error code
   -> String -- ^ The description
-  -> Error a -- ^ The resulting Error
+  -> Error -- ^ The resulting Error
 errAppend c = new $ Just c
 
 -- | This is a convenient way to turn a string into an error value that can be
@@ -75,13 +75,13 @@ errAppend c = new $ Just c
 err ::
      Code -- ^ The error code
   -> String -- ^ The description
-  -> Error a -- ^ The resulting Error
+  -> Error -- ^ The resulting Error
 err = new Nothing
 
 -- | The `Fail` implementation for the concrete `Error` type
 --
 -- @since 0.1.0
-instance Fail (Error a) where
+instance Fail Error where
   cause a = a ^. nextCause
   backtrace e@Error {_nextCause = Nothing} = [e]
   backtrace e@Error {_nextCause = Just c}  = e : backtrace c
