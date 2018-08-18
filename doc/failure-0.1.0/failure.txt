@@ -22,30 +22,29 @@ module Failure.Fail
 --   <a>cause</a> returns the underlying cause of this failure, if it is an
 --   error that wraps other errors. Returns <a>Nothing</a> if this failure
 --   does not have another error as its underlying cause.
+--   
+--   <a>+&gt;</a> adds an Error to the chain. This sets the seconds error
+--   cause to the first one and prepends it therefore to the overall
+--   error-chain.
 class Fail a
 backtrace :: Fail a => a -> [a]
 cause :: Fail a => a -> Maybe a
+(+>) :: Fail a => a -> a -> a
 
 
 -- | Concrete Error types
 module Failure.Error
 
--- | Simple error code to integer representation
-type Code = Integer
-
 -- | The concrete error type
-data Error
-code :: Lens' Error Code
-description :: Lens' Error String
+data Error a
+code :: forall a_a6Nt. Lens' (Error a_a6Nt) a_a6Nt
+description :: forall a_a6Nt. Lens' (Error a_a6Nt) String
 
 -- | This is a convenient way to turn a string into an error value that can
 --   be passed around, if you do not want to create a new Fail type for
 --   this use case.
-err :: Code -> String -> Error
-
--- | Append an error to the chain with a given description
-errAppend :: Error -> Code -> String -> Error
-nextCause :: Lens' Error (Maybe Error)
-instance GHC.Show.Show Failure.Error.Error
-instance Failure.Fail.Fail Failure.Error.Error
-instance GHC.Classes.Eq Failure.Error.Error
+err :: a -> String -> Error a
+nextCause :: forall a_a6Nt. Lens' (Error a_a6Nt) (Maybe (Error a_a6Nt))
+instance GHC.Show.Show a => GHC.Show.Show (Failure.Error.Error a)
+instance Failure.Fail.Fail (Failure.Error.Error a)
+instance GHC.Classes.Eq a => GHC.Classes.Eq (Failure.Error.Error a)
