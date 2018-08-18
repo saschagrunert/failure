@@ -4,7 +4,8 @@
 --
 -- @since 0.1.0
 module Failure.Error
-  ( Error
+  ( EitherE
+  , Error
   , code
   , description
   , err
@@ -14,6 +15,11 @@ module Failure.Error
 import Control.Lens (makeLenses, (%~), (^.))
 import Failure.Fail (Fail (backtrace, cause, (+>)))
 import Text.Printf  (printf)
+
+-- | The Either type for Error
+--
+-- @since 0.1.0
+type EitherE a b = Either (Error a) b
 
 -- | The concrete error type
 --
