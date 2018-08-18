@@ -9,12 +9,14 @@ module Failure.Error
   , code
   , description
   , err
+  , fromException
   , nextCause
   ) where
 
-import Control.Lens (makeLenses, (%~), (^.))
-import Failure.Fail (Fail (backtrace, cause, (+>)))
-import Text.Printf  (printf)
+import Control.Exception (Exception, displayException)
+import Control.Lens      (makeLenses, (%~), (^.))
+import Failure.Fail      (Fail (backtrace, cause, (+>)))
+import Text.Printf       (printf)
 
 -- | The Either type for Error
 --
@@ -40,6 +42,15 @@ instance Show a => Show (Error a) where
     printf "%s: %s" (printfE d e) $ show c
   show Error {_code = e, _description = d, _nextCause = Nothing} = printfE d e
 
+-- | The `Fail` implementation for the concrete `Error` type
+--
+-- @since 0.1.0
+instance Fail (Error a) where
+  cause a = a ^. nextCause
+  backtrace e@Error {_nextCause = Nothing} = [e]
+  backtrace e@Error {_nextCause = Just c}  = e : backtrace c
+  l +> r = nextCause %~ const (Just l) $ r
+
 -- | Convenience error printing helper
 --
 -- @since 0.1.0
@@ -48,7 +59,8 @@ printfE ::
   => String -- ^ The description
   -> a -- ^ The error code
   -> String -- ^ The printed result
-printfE s c = printf "%s (%s)" s (show c)
+printfE "" c = printf "%s" (show c)
+printfE s c  = printf "%s (%s)" s (show c)
 
 -- | Create a new `Error` for convenience
 --
@@ -71,11 +83,8 @@ err ::
   -> Error a -- ^ The resulting Error
 err = new Nothing
 
--- | The `Fail` implementation for the concrete `Error` type
+-- | Convert an `Exception` to an `Error`
 --
 -- @since 0.1.0
-instance Fail (Error a) where
-  cause a = a ^. nextCause
-  backtrace e@Error {_nextCause = Nothing} = [e]
-  backtrace e@Error {_nextCause = Just c}  = e : backtrace c
-  l +> r = nextCause %~ const (Just l) $ r
+fromException :: Exception e => e -> a -> Error a
+fromException e a = err a (displayException e)

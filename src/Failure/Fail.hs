@@ -28,6 +28,7 @@ class Fail a where
        a -- ^ The input failure
     -> Maybe a -- ^ The cause failure
   cause _ = Nothing
+  infixl 2 +>
   (+>) ::
        a -- ^ The reason for the resulting failure
     -> a -- ^ The failure to append

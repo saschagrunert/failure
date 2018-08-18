@@ -5,10 +5,11 @@ module Error
   ( errorSpec
   ) where
 
-import Control.Lens     ((^.))
-import Failure.Error    (code, description, err, nextCause)
-import Failure.Fail     (Fail (backtrace, cause, (+>)))
-import Test.Tasty.Hspec (Spec, it, parallel, shouldBe, shouldContain)
+import Control.Exception (ArithException (DivideByZero))
+import Control.Lens      ((^.))
+import Failure.Error     (code, description, err, fromException, nextCause)
+import Failure.Fail      (Fail (backtrace, cause, (+>)))
+import Test.Tasty.Hspec  (Spec, it, parallel, shouldBe, shouldContain)
 
 -- Testable error codes
 data Code
@@ -37,6 +38,14 @@ errorSpec =
     it "should succeed to retrieve the code of an Error" $
       testError ^. code `shouldBe` testErrorCode
     --
+    it "should succeed to chain Errors" $
+      err (0 :: Int) "" +> err 1 "" +> err 2 "" `shouldBe` err (0 :: Int) "" +>
+      err 1 "" +>
+      err 2 ""
+    --
+    it "should succeed to print only Error code" $
+      show (err Error1 "") `shouldBe` show Error1
+    --
     it "should succeed to retrieve the description of an Error" $
       testError ^. description `shouldBe` testErrorDescription
     --
@@ -63,3 +72,7 @@ errorSpec =
     --
     it "should succeed to backtrace two Errors" $
       backtrace nextTestError `shouldBe` [nextTestError, testError]
+    --
+    it "should succeed to convert from an Exception" $
+      show (fromException DivideByZero Error1) `shouldBe`
+      "divide by zero (Error1)"
