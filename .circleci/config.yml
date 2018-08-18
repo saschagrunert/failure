@@ -8,6 +8,8 @@ workflows:
   pipeline:
     jobs:
       - build
+      - lint
+      - style
       - doc
       - doc-publish:
           requires:
@@ -35,6 +37,23 @@ jobs:
           paths:
             - .stack-work
             - /root/.stack
+  lint:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Check lint
+          command: hlint -g
+  style:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Check style
+          command: |
+            shopt -s globstar
+            stylish-haskell -i **.hs
+            git diff --exit-code
   doc:
     <<: *defaults
     steps:
