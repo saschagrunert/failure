@@ -10,8 +10,8 @@ copyright: 2018 Sascha Grunert
 extra-source-files:
   - README.md
 
-synopsis: Short description of your package
-category: Web
+synopsis: Pure and type driven error handling for Haskell
+category: Failure
 description: Please see the README on GitHub at
   <https://github.com/saschagrunert/failure#readme>
 
