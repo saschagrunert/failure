@@ -2,7 +2,7 @@
 -- See Hoogle, http://www.haskell.org/hoogle/
 
 
--- | Short description of your package
+-- | Pure and type driven error handling for Haskell
 --   
 --   Please see the README on GitHub at
 --   <a>https://github.com/saschagrunert/failure#readme</a>
