@@ -1,11 +1,11 @@
 ---
 name: failure
 version: 0.1.0
-github: "saschagrunert/failure"
+github: saschagrunert/failure
 license: MIT
-author: "Sascha Grunert"
-maintainer: "mail@saschagrunert.de"
-copyright: "2018 Sascha Grunert"
+author: Sascha Grunert
+maintainer: mail@saschagrunert.de
+copyright: 2018 Sascha Grunert
 
 extra-source-files:
   - README.md
